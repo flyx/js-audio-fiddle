@@ -67,12 +67,12 @@ TrackInterface = {
    }
 }
 
-SineTrack = function() {
+SineTrack = function(context,channel) {
    var that = this;
-   this.context = new webkitAudioContext();
-   this.node = this.context.createJavaScriptNode(256, 1, 1);
+   this.context = context;
+   this.node = this.context.createJavaScriptNode(256, 10, 10);
    this.node.onaudioprocess = function(e) { that.process(e) };
-   
+   this.channel = channel;
    this.frequency = 440;
    this.next_frequency = 440;
    this.amplitude = 1;
@@ -98,7 +98,7 @@ SineTrack.prototype.handleEvent = function(event) {
 }
 
 SineTrack.prototype.process = function(e) {
-   var data = e.outputBuffer.getChannelData(0);
+   var data = e.outputBuffer.getChannelData(this.channel);
    for (var i = 0; i < data.length; ++i) {
       data[i] = this.amplitude * Math.sin(this.x++ /
             (this.sample_rate / (2 * Math.PI * this.frequency)));
