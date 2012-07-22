@@ -76,7 +76,7 @@ SineTrack = function(context,channel) {
    this.frequency = 440;
    this.next_frequency = 440;
    this.amplitude = 1;
-   this.sample_rate = 44100;
+   this.sample_rate = this.context.sampleRate;
    this.x = 0;
    this.on = false;
 }
@@ -85,8 +85,10 @@ SineTrack.prototype = TrackInterface;
 
 SineTrack.prototype.handleEvent = function(event) {
    switch (event.name) {
-      case "on": this.x = 0; this.start(); break;
-      case "off": this.pause(); break;
+      case "on": this.x = 0; this.stop_request = false; this.start(); break;
+      case "off":
+         this.stop_request = true;
+         break;
       case "setFrequency" :
          this.next_frequency = event.frequency;
          if (!this.on) {
@@ -99,18 +101,34 @@ SineTrack.prototype.handleEvent = function(event) {
 
 SineTrack.prototype.process = function(e) {
    var data = e.outputBuffer.getChannelData(this.channel);
+   var stopping = false;
    for (var i = 0; i < data.length; ++i) {
-      data[i] = this.amplitude * Math.sin(this.x++ /
-            (this.sample_rate / (2 * Math.PI * this.frequency)));
-      
-      if (this.next_frequency != this.frequency) {
+      if (stopping) {
+         data[i] = 0;
+      } else {
+         data[i] = this.amplitude * Math.sin(this.x++ /
+               (this.sample_rate / (2 * Math.PI * this.frequency)));
+      }
+      if (this.next_frequency != this.frequency || this.stop_request) {
          next_data = this.amplitude * Math.sin(
                this.x / (this.sample_rate / (2 * Math.PI * this.frequency)));
-         if (data[i] < 0.001 && data[i] > -0.001 && data[i] < next_data) {
-            this.frequency = this.next_frequency;
-            this.x = 0;
+         if (this.next_frequency != this.frequency) {
+            if (data[i] < 0.001 && data[i] > -0.001 && data[i] < next_data) {
+               this.frequency = this.next_frequency;
+               this.x = 0;
+            }
+         }
+         
+         if (this.stop_request) {
+            // xor
+            if ((next_data < 0) ? (data[i] >= 0) : (data[i] < 0)) {
+               stopping = true;
+            }
          }
       }
+   }
+   if (stopping) {
+      this.pause();
    }
 }
 
