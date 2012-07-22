@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script>
+      window.onload = function() {
+
+        var canvas = document.getElementById("myCanvas");
+        var context = canvas.getContext("2d");
+        var centerX = canvas.width / 2;
+        var centerY = canvas.height / 2;
+        var radius = 70;
+        
+        var Demo = { };
+       
+       
+        Particle = function(x,y,dx,dy,grad,speed,zoom,life,gravity_grad,gravity_force) {
+            this.x = x;
+            this.y = y;
+            this.zoom = zoom;
+            this.speed = speed;
+            this.life = life;
+            this.grad = grad;
+            this.gravity_grad = gravity_grad;
+            this.gravity_force = gravity_force;
+            this.age = life;
+            if(this.grad==null) {
+                this.dx = dx;
+                this.dy = dy;
+            } else {
+                this.dx = Math.cos((this.grad/360)*(2*Math.PI)) * this.speed;
+                this.dy = Math.sin((this.grad/360)*(2*Math.PI)) * this.speed;
+            }
+            this.gx = Math.cos((this.gravity_grad/360)*(2*Math.PI)) * this.gravity_force;
+            this.gy = Math.sin((this.gravity_grad/360)*(2*Math.PI)) * this.gravity_force;
+        }
+        
+        Particle.prototype.update = function() {
+            if(this.life>0) {
+                this.gx*=this.gravity_force;
+                this.gy*=this.gravity_force;
+                this.x += this.dx+(this.gx);
+                this.y += this.dy+(this.gy);
+                this.life--;
+            }
+        }
+        
+        var mul = 100.0;
+        var posX = 100;
+        var posY = 100;
+        var grad = 90;
+        var speed = 1;
+          
+        var logo = [
+//       ##
+new Particle(posX+(3*0.13*mul),posY+(0*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(4*0.13*mul),posY+(0*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+//      ####
+new Particle(posX+(2*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(3*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(4*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(5*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+//     ######
+new Particle(posX+(1*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(2*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(3*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(4*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(5*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(6*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+//    ########
+new Particle(posX+(0*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(1*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(2*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(3*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(4*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(5*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(6*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(7*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+//    ########
+new Particle(posX+(1*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(2*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(3*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(4*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(5*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(6*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+//    ###  ###
+new Particle(posX+(1*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(2*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(3*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(4*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(5*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(6*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+//    ###  ###
+new Particle(posX+(1*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(2*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(3*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(4*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(5*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+new Particle(posX+(6*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
+        ]
+
+        var explosion = Array();
+        
+        
+        Demo.fps = 50;
+        Demo.x = 0;
+        
+        
+        Demo.run = function() {
+            
+            // add fog
+            for(i = 0; i<5; ++i)
+                explosion.push(new Particle(
+                    (Math.sin((Demo.x/100)*Math.PI*2)*100)  +Math.random()*20+250,
+                    (Math.cos((Demo.x/200)*Math.PI*2)*100)  +Math.random()*30+300,
+                    0,0,Math.random()*360,
+                    Math.random()*1+0.5,
+                    5,100,
+                    -90,1.01))
+            
+            context.clearRect (0,0,1280,720);
+            
+            context.beginPath();
+            
+            for(var i = logo.length-1; i >= 0; i--){
+                logo[i].update();
+                context.rect(logo[i].x, logo[i].y, logo[i].zoom, logo[i].zoom);
+                if(logo[i].life == 0){    
+                    logo.splice(i,1); 
+                }
+            }
+            context.fillStyle = '#00CC00';
+            context.fill();
+            
+            
+            for(var i = explosion.length-1; i >= 0; i--){
+                explosion[i].update();
+                
+                context.beginPath();
+                context.arc(explosion[i].x, explosion[i].y, explosion[i].zoom, Math.PI*2, 0);
+                context.fillStyle = 'rgba(0, 0, 0, '+0.4*(explosion[i].life/explosion[i].age)+')';
+                context.fill();
+                context.closePath();
+                
+                if(explosion[i].life == 0 || explosion[i].x < 0 || explosion[i].y<0 || explosion[i].x>1280 || explosion[i].y>720){    
+                    explosion.splice(i,1); 
+                }
+            }
+            
+            Demo.x++;
+        
+        };
+        
+        // Start the game loop
+        Demo._intervalId = setInterval(Demo.run, 1000 / Demo.fps);
+        
+        //clearInterval(Game._intervalId);
+        
+        
+      };
+
+    </script>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="1280" height="720"></canvas>
+  </body>
+</html>
