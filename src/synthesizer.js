@@ -83,7 +83,12 @@ SineTrack.prototype.handleEvent = function(event) {
             this.frequency = event.frequency;
          }
          break;
-      case "setAmplitude" : this.amplitude = event.amplitude;
+      case "setAmplitude" : this.amplitude = event.amplitude; break;
+      case "setVibrate" :
+         this.vibrateEnabled = event.enabled;
+         this.vibrateFrequency = event.frequency;
+         this.vibrateAmp = event.amplitude;
+         this.y = 0;
    }
 }
 
@@ -91,6 +96,13 @@ SineTrack.prototype.process = function(e, channel, sampleRate) {
    var data = e.outputBuffer.getChannelData(channel);
    
    for (var i = 0; i < data.length; i++) {
+      if (this.vibrateEnabled) {
+         curFrequency = this.frequency + Math.sin(this.y++ /
+               (sampleRate / (2 * Math.PI * this.vibrateFrequency))) * this.vibrateAmp;
+      } else {
+         curFrequency = this.frequency;
+      }
+      
       if (this.on) {
       
          if (this.stop_request && this.damp > 0) {
@@ -99,11 +111,11 @@ SineTrack.prototype.process = function(e, channel, sampleRate) {
             this.damp += 0.001;
          }
          data[i] = this.amplitude * this.damp * Math.sin(this.x++ /
-               (sampleRate / (2 * Math.PI * this.frequency)));
+               (sampleRate / (2 * Math.PI * curFrequency)));
          
          if (this.next_frequency != this.frequency) {
             next_data = this.amplitude * this.damp * Math.sin(this.x / 
-                     (sampleRate / (2 * Math.PI * this.frequency)));
+                     (sampleRate / (2 * Math.PI * curFrequency)));
             if (data[i] < 0.001 && data[i] > -0.001 && data[i] < next_data) {
                this.frequency = this.next_frequency;
                this.x = 0;

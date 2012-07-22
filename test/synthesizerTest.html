@@ -23,6 +23,7 @@
          var track1ref = synth.addTrack(track1);
          var track2ref = synth.addTrack(track2);
          synth.addEvent(0,  track2ref, {name : "setFrequency", frequency: 261.63});
+         synth.addEvent(0,  track1ref, {name : "setVibrate", enabled : true, frequency: 5, amplitude: 1.5});
          synth.addEvent(0,  track1ref, {name : "on"});
          synth.addEvent(0,  track2ref, {name : "on"});
          synth.addEvent(6,  track1ref, {name : "off"});
