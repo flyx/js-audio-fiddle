@@ -13,11 +13,18 @@
       <table>
          <tr>
             <td>Frequency:</td>
-            <td style="min-width: 200px">
+            <td style="min-width: 500px">
                <div id="slider"></div>
             </td>
          </tr>
+         <tr>
+            <td>Amplitude:</td>
+            <td>
+               <div id="amplitude"></div>
+            </td>
+         </tr>
       </table>
+      <button id="startstop">Start</button>
    </article>
    
    <script src="js/jquery.js"></script>
@@ -29,17 +36,27 @@
          this.context = context;
          this.sample_rate = 44100;
          this.frequency = 440;
+         this.amplitude = 1;
          this.next_frequency = 440;
          this.node = context.createJavaScriptNode(1024, 1, 1);
          this.node.onaudioprocess = function(e) { that.process(e) };
       }
       
       SineWave.prototype.process = function(e) {
-         this.frequency = this.next_frequency;
+         //this.frequency = this.next_frequency;
          var data = e.outputBuffer.getChannelData(0);
          for (var i = 0; i < data.length; ++i) {
-            //data[i] = Math.sin(this.x++);
-            data[i] = Math.sin(this.x++ / (this.sample_rate / (2 * Math.PI * this.frequency)));
+            data[i] = this.amplitude * Math.sin(this.x++ /
+                  (this.sample_rate / (2 * Math.PI * this.frequency)));
+            
+            if (this.next_frequency != this.frequency) {
+               next_data = this.amplitude * Math.sin(
+                     this.x / (this.sample_rate / (2 * Math.PI * this.frequency)));
+               if (data[i] < 0.001 && data[i] > -0.001 && data[i] < next_data) {
+                  this.frequency = this.next_frequency;
+                  this.x = 0;
+               }
+            }
          }
       }
       
@@ -54,21 +71,43 @@
       SineWave.prototype.setFrequency = function(freq) {
          this.next_frequency = freq;
       }
+      
+      SineWave.prototype.setAmplitude = function(amp) {
+         this.amplitude = amp;
+      }
    </script>
    <script>
       var context;
       var sinewave;
+      var playing = false;
       
       $(function() {
          context = new webkitAudioContext();
          sinewave = new SineWave(context);
-         sinewave.play();
+         //sinewave.play();
          
          $("#slider").slider({
             value: 440,
             min: 1,
             max: 2048,
             slide: function(event, ui) { sinewave.setFrequency(ui.value); }
+         });
+         $("#amplitude").slider({
+            value: 50,
+            min: 1,
+            max: 200,
+            slide: function(event, ui) { sinewave.setAmplitude(ui.value / 50); }
+         });
+         $("#startstop").button().click(function(e){
+            if (playing) {
+               sinewave.pause();
+               $("#startstop").button("option", "label", "Start");
+               playing = false;
+            } else {
+               sinewave.play();
+               $("#startstop").button("option", "label", "Stop");
+               playing = true;
+            }
          });
       });
    </script>
