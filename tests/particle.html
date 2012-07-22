@@ -44,64 +44,66 @@
             }
         }
         
-        var mul = 100.0;
-        var posX = 100;
-        var posY = 100;
-        var grad = 90;
-        var speed = 1;
-          
-        var logo = [
-//       ##
-new Particle(posX+(3*0.13*mul),posY+(0*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(4*0.13*mul),posY+(0*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-//      ####
-new Particle(posX+(2*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(3*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(4*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(5*0.13*mul),posY+(1*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-//     ######
-new Particle(posX+(1*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(2*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(3*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(4*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(5*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(6*0.13*mul),posY+(2*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-//    ########
-new Particle(posX+(0*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(1*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(2*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(3*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(4*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(5*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(6*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(7*0.13*mul),posY+(3*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-//    ########
-new Particle(posX+(1*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(2*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(3*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(4*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(5*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(6*0.13*mul),posY+(4*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-//    ###  ###
-new Particle(posX+(1*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(2*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(3*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(4*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(5*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(6*0.13*mul),posY+(5*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-//    ###  ###
-new Particle(posX+(1*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(2*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(3*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(4*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(5*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-new Particle(posX+(6*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0),
-        ]
+        
+        
+        function shack(context,posX,posY,mul) {
+            context.beginPath();
+            
+            context.rect(posX+(3*0.13*mul),posY+(0*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(4*0.13*mul),posY+(0*0.13*mul),mul/10,mul/10);
+            //      ####
+            context.rect(posX+(2*0.13*mul),posY+(1*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(3*0.13*mul),posY+(1*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(4*0.13*mul),posY+(1*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(5*0.13*mul),posY+(1*0.13*mul),mul/10,mul/10);
+            //     ######
+            context.rect(posX+(1*0.13*mul),posY+(2*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(2*0.13*mul),posY+(2*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(3*0.13*mul),posY+(2*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(4*0.13*mul),posY+(2*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(5*0.13*mul),posY+(2*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(6*0.13*mul),posY+(2*0.13*mul),mul/10,mul/10);
+            //    ########
+            context.rect(posX+(0*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(1*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(2*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(3*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(4*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(5*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(6*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(7*0.13*mul),posY+(3*0.13*mul),mul/10,mul/10);
+            //    ########
+            context.rect(posX+(1*0.13*mul),posY+(4*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(2*0.13*mul),posY+(4*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(3*0.13*mul),posY+(4*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(4*0.13*mul),posY+(4*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(5*0.13*mul),posY+(4*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(6*0.13*mul),posY+(4*0.13*mul),mul/10,mul/10);
+            //    ###  ###
+            context.rect(posX+(1*0.13*mul),posY+(5*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(2*0.13*mul),posY+(5*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(3*0.13*mul),posY+(5*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(4*0.13*mul),posY+(5*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(5*0.13*mul),posY+(5*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(6*0.13*mul),posY+(5*0.13*mul),mul/10,mul/10);
+            //    ###  ###
+            context.rect(posX+(1*0.13*mul),posY+(6*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(2*0.13*mul),posY+(6*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(3*0.13*mul),posY+(6*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(4*0.13*mul),posY+(6*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(5*0.13*mul),posY+(6*0.13*mul),mul/10,mul/10);
+            context.rect(posX+(6*0.13*mul),posY+(6*0.13*mul),mul/10,mul/10); 
+            context.fillStyle = 'rgba(0, 200, 0, 1.0)';
+            context.fill();
+            context.closePath();
+        }
+        
 
         var explosion = Array();
         
+        var logo = Array();
         
-        Demo.fps = 50;
+        Demo.fps = 100;
         Demo.x = 0;
         
         
@@ -110,34 +112,26 @@ new Particle(posX+(6*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0
             // add fog
             for(i = 0; i<5; ++i)
                 explosion.push(new Particle(
-                    (Math.sin((Demo.x/100)*Math.PI*2)*100)  +Math.random()*20+250,
-                    (Math.cos((Demo.x/200)*Math.PI*2)*100)  +Math.random()*30+300,
+                    (Math.sin((Demo.x/555)*Math.PI*2)*300) + (Math.sin((Demo.x/333)*Math.PI*2)*300) + Math.random()*60+625,
+                    (Math.cos((Demo.x/666)*Math.PI*2)*150) + (Math.cos((Demo.x/222)*Math.PI*2)*190)+ Math.random()*60+360,
                     0,0,Math.random()*360,
                     Math.random()*1+0.5,
-                    5,100,
+                    Math.random()*5+1,100,
                     -90,1.01))
             
             context.clearRect (0,0,1280,720);
             
-            context.beginPath();
             
-            for(var i = logo.length-1; i >= 0; i--){
-                logo[i].update();
-                context.rect(logo[i].x, logo[i].y, logo[i].zoom, logo[i].zoom);
-                if(logo[i].life == 0){    
-                    logo.splice(i,1); 
-                }
-            }
-            context.fillStyle = '#00CC00';
-            context.fill();
-            
+            //context.beginPath();
             
             for(var i = explosion.length-1; i >= 0; i--){
                 explosion[i].update();
                 
                 context.beginPath();
-                context.arc(explosion[i].x, explosion[i].y, explosion[i].zoom, Math.PI*2, 0);
-                context.fillStyle = 'rgba(0, 0, 0, '+0.4*(explosion[i].life/explosion[i].age)+')';
+                context.arc(explosion[i].x, explosion[i].y, explosion[i].zoom, Math.PI*2, false);
+                
+                context.lineTo(explosion[i].x, explosion[i].y);
+                context.fillStyle = 'rgba(220, 220, 220, '+0.7*(explosion[i].life/explosion[i].age)+')';
                 context.fill();
                 context.closePath();
                 
@@ -145,6 +139,15 @@ new Particle(posX+(6*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0
                     explosion.splice(i,1); 
                 }
             }
+            //context.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            //context.fill();
+            //context.closePath();
+            
+            
+            shack(context,
+                (Math.sin((Demo.x/555)*Math.PI*2)*300) + (Math.sin((Demo.x/333)*Math.PI*2)*300) + 625-20,
+                (Math.cos((Demo.x/666)*Math.PI*2)*150) + (Math.cos((Demo.x/222)*Math.PI*2)*190)+ 360-25,
+                100);
             
             Demo.x++;
         
@@ -154,13 +157,11 @@ new Particle(posX+(6*0.13*mul),posY+(6*0.13*mul),0,0,grad,speed,mul/10,1*mul,0,0
         Demo._intervalId = setInterval(Demo.run, 1000 / Demo.fps);
         
         //clearInterval(Game._intervalId);
-        
-        
       };
 
     </script>
   </head>
-  <body>
-    <canvas id="myCanvas" width="1280" height="720"></canvas>
+  <body style="background-color: #000;">
+    <canvas style="background-color: #000; border: 1px solid #fff; margin: 20px 30px; width: 1280px;" id="myCanvas" width="1280" height="720"></canvas>
   </body>
 </html>
