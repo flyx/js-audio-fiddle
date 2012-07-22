@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   
+</head>
+<body>
+   <header>
+      <h1>Web Audio API Test</h1>
+   </header>
+   
+   <article>
+      <table>
+         <tr>
+            <td>Frequency:</td>
+            <td id="slider"></td>
+         </tr>
+      </table>
+   </article>
+   
+   <script src="js/jquery.js"></script>
+   <script src="js/jquery-ui.js"></script>
+   <script>
+      SineWave = function(context) {
+        var that = this;
+        this.x = 0; // Initial sample number
+        this.context = context;
+        this.sample_rate = 44100;
+        this.frequency = 440;
+        this.node = context.createJavaScriptNode(1024, 1, 1);
+        this.node.onaudioprocess = function(e) { that.process(e) };
+      }
+      
+      SineWave.prototype.process = function(e) {
+        var data = e.outputBuffer.getChannelData(0);
+        for (var i = 0; i < data.length; ++i) {
+          //data[i] = Math.sin(this.x++);
+          data[i] = Math.sin(this.x++ / (this.sample_rate / 2 * Math.PI * this.frequency));
+        }
+      }
+      
+      SineWave.prototype.play = function() {
+        this.node.connect(this.context.destination);
+      }
+      
+      SineWave.prototype.pause = function() {
+        this.node.disconnect();
+      }
+      
+      SineWave.prototype.setFrequency = function(freq) {
+        this.next_frequency = freq;
+      }
+   </script>
+   <script>
+      var context;
+      var sinewave;
+      
+      $(function() {
+         context = new webkitAudioContext();
+         sinewave = new SineWave(context);
+         sinewave.play();
+         
+         $("#slider").slider({
+             value: 440,
+             min: 1,
+             max: 2048,
+             slide: function(event, ui) { sinewave.setFrequency(ui.value); }
+         });
+      });
+   </script>
+</body>
+</html>
