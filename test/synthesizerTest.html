@@ -15,6 +15,7 @@
    
    <script src="../src/synthesizer.js"></script>
    <script src="../3rdParty/jquery.js"></script>
+   <script src="../3rdParty/jquery-csv.js"></script>
    <script>
       $(function() {
          var synth = new Synthesizer();
@@ -26,27 +27,17 @@
          var track2 = new SineInstrument({});
          var track1ref = synth.addInstrument(track1);
          var track2ref = synth.addInstrument(track2);
-         synth.addEvent(0,  track1ref, {name : "on", frequency: 440});
-         synth.addEvent(0,  track2ref, {name : "on", frequency: 261.63});
-         synth.addEvent(6,  track1ref, {name : "off"});
-         synth.addEvent(8,  track1ref, {name : "on", frequency: 329.63});
-         synth.addEvent(14, track1ref, {name : "off"});
-         synth.addEvent(16, track1ref, {name : "on", frequency: 440});
-         synth.addEvent(22, track1ref, {name : "off"});
-         synth.addEvent(24, track1ref, {name : "on", frequency: 329.63});
-         synth.addEvent(30, track1ref, {name : "off"});
-         synth.addEvent(32, track1ref, {name : "on", frequency: 440});
-         synth.addEvent(38, track1ref, {name : "off"});
-         synth.addEvent(40, track1ref, {name : "on", frequency: 329.63});
-         synth.addEvent(46, track1ref, {name : "off"});
-         synth.addEvent(48, track1ref, {name : "on", frequency: 440});
-         synth.addEvent(52, track1ref, {name : "setFrequency", frequency: 329.63});
-         synth.addEvent(56, track1ref, {name : "setFrequency", frequency: 369.99});
-         synth.addEvent(60, track1ref, {name : "setFrequency", frequency: 415.30});
-         synth.addEvent(64, track1ref, {name : "setFrequency", frequency: 440});
-         synth.addEvent(70, track1ref, {name : "off"});
-         synth.addEvent(70, track2ref, {name : "off"});
-         synth.play();
+         $.get('music.csv', function(data) {
+            events = $.csv2Array(data);
+            for (var i = 0; i < events.length; i++) {
+               var event = {name : events[i][2]};
+               if (events[i].length > 3) {
+                  event.frequency = parseFloat(events[i][3]);
+               }
+               synth.addEvent(parseInt(events[i][0]), parseInt(events[i][1]), event);
+            }
+            synth.play();
+         });
       });
    </script>
 </body>

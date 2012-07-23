@@ -86,13 +86,13 @@ SineInstrument.prototype.handleEvent = function(event) {
       case "off":
          this.stop_request = true;
          break;
-      case "setFrequency" :
+      case "freq" :
          this.next_frequency = event.frequency;
          if (!this.on) {
             this.frequency = event.frequency;
          }
          break;
-      case "setAmplitude" : this.amplitude = event.amplitude; break;
+      case "amp" : this.amplitude = event.amplitude; break;
    }
 }
 
