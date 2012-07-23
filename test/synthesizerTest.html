@@ -18,32 +18,28 @@
    <script>
       $(function() {
          var synth = new Synthesizer();
-         var track1 = new SineTrack();
-         var track2 = new SineTrack();
-         var track1ref = synth.addTrack(track1);
-         var track2ref = synth.addTrack(track2);
-         synth.addEvent(0,  track2ref, {name : "setFrequency", frequency: 261.63});
-         synth.addEvent(0,  track1ref, {name : "setVibrate", enabled : true, frequency: 5, amplitude: 1.5});
-         synth.addEvent(0,  track1ref, {name : "on"});
-         synth.addEvent(0,  track2ref, {name : "on"});
+         var track1 = new SineInstrument({
+            vibrateEnabled: true,
+            vibrateFrequency: 5,
+            vibrateAmp: 1.5
+         });
+         var track2 = new SineInstrument({});
+         var track1ref = synth.addInstrument(track1);
+         var track2ref = synth.addInstrument(track2);
+         synth.addEvent(0,  track1ref, {name : "on", frequency: 440});
+         synth.addEvent(0,  track2ref, {name : "on", frequency: 261.63});
          synth.addEvent(6,  track1ref, {name : "off"});
-         synth.addEvent(6,  track1ref, {name : "setFrequency", frequency: 329.63});
-         synth.addEvent(8,  track1ref, {name : "on"});
+         synth.addEvent(8,  track1ref, {name : "on", frequency: 329.63});
          synth.addEvent(14, track1ref, {name : "off"});
-         synth.addEvent(14, track1ref, {name : "setFrequency", frequency: 440});
-         synth.addEvent(16, track1ref, {name : "on"});
+         synth.addEvent(16, track1ref, {name : "on", frequency: 440});
          synth.addEvent(22, track1ref, {name : "off"});
-         synth.addEvent(22, track1ref, {name : "setFrequency", frequency: 329.63});
-         synth.addEvent(24, track1ref, {name : "on"});
+         synth.addEvent(24, track1ref, {name : "on", frequency: 329.63});
          synth.addEvent(30, track1ref, {name : "off"});
-         synth.addEvent(30, track1ref, {name : "setFrequency", frequency: 440});
-         synth.addEvent(32, track1ref, {name : "on"});
+         synth.addEvent(32, track1ref, {name : "on", frequency: 440});
          synth.addEvent(38, track1ref, {name : "off"});
-         synth.addEvent(38, track1ref, {name : "setFrequency", frequency: 329.63});
-         synth.addEvent(40, track1ref, {name : "on"});
+         synth.addEvent(40, track1ref, {name : "on", frequency: 329.63});
          synth.addEvent(46, track1ref, {name : "off"});
-         synth.addEvent(46, track1ref, {name : "setFrequency", frequency: 440});
-         synth.addEvent(48, track1ref, {name : "on"});
+         synth.addEvent(48, track1ref, {name : "on", frequency: 440});
          synth.addEvent(52, track1ref, {name : "setFrequency", frequency: 329.63});
          synth.addEvent(56, track1ref, {name : "setFrequency", frequency: 369.99});
          synth.addEvent(60, track1ref, {name : "setFrequency", frequency: 415.30});

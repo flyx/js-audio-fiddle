@@ -31,7 +31,7 @@ Synthesizer.prototype.reset = function() {
    this.time = 0;
 }
 
-Synthesizer.prototype.addTrack = function(track) {
+Synthesizer.prototype.addInstrument = function(track) {
    this.tracks.push(track);
    return this.tracks.length - 1;
 }
@@ -54,26 +54,35 @@ Synthesizer.prototype.addEvent = function(time, track, synthEvent) {
    this.events[time].push({track : track, event : synthEvent});
 }
 
-TrackInterface = {
+InstrumentInterface = {
    handleEvent : function(event) {
       // abstract method
    }
 }
 
-SineTrack = function() {
+SineInstrument = function(config) {
    var that = this;
    this.frequency = 440;
    this.next_frequency = 440;
-   this.amplitude = 1;
+   this.amplitude = 0.5;
    this.x = 0;
+   this.y = 0;
    this.on = false;
+   this.config = config;
 }
 
-SineTrack.prototype = TrackInterface;
+SineInstrument.prototype = InstrumentInterface;
 
-SineTrack.prototype.handleEvent = function(event) {
+SineInstrument.prototype.handleEvent = function(event) {
    switch (event.name) {
-      case "on": this.x = 0; this.stop_request = false; this.damp = 0; this.on = true; break;
+      case "on":
+         this.x = 0;
+         this.stop_request = false;
+         this.damp = 0;
+         this.on = true;
+         this.frequency = event.frequency;
+         this.next_frequency = event.frequency;
+         break;
       case "off":
          this.stop_request = true;
          break;
@@ -84,21 +93,17 @@ SineTrack.prototype.handleEvent = function(event) {
          }
          break;
       case "setAmplitude" : this.amplitude = event.amplitude; break;
-      case "setVibrate" :
-         this.vibrateEnabled = event.enabled;
-         this.vibrateFrequency = event.frequency;
-         this.vibrateAmp = event.amplitude;
-         this.y = 0;
    }
 }
 
-SineTrack.prototype.process = function(e, channel, sampleRate) {
+SineInstrument.prototype.process = function(e, channel, sampleRate) {
    var data = e.outputBuffer.getChannelData(channel);
    
    for (var i = 0; i < data.length; i++) {
-      if (this.vibrateEnabled) {
+      if (this.config.vibrateEnabled) {
          curFrequency = this.frequency + Math.sin(this.y++ /
-               (sampleRate / (2 * Math.PI * this.vibrateFrequency))) * this.vibrateAmp;
+               (sampleRate / (2 * Math.PI * this.config.vibrateFrequency))) *
+               this.config.vibrateAmp;
       } else {
          curFrequency = this.frequency;
       }
