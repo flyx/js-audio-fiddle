@@ -18,7 +18,7 @@ Synthesizer.prototype.play = function() {
    this.node.connect(this.context.destination);
    this.timer = setInterval(function() {
       that.step();
-   }, 60);
+   }, 30);
    
 }
 

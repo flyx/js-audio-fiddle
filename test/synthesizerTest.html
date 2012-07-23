@@ -14,25 +14,30 @@
    </article>
    
    <script src="../src/synthesizer.js"></script>
+   <script src="../src/frequencies.js"></script>
    <script src="../3rdParty/jquery.js"></script>
    <script src="../3rdParty/jquery-csv.js"></script>
    <script>
       $(function() {
          var synth = new Synthesizer();
-         var track1 = new SineInstrument({
+         var track1 = new SineInstrument({});
+         var melody = new SineInstrument({
             vibrateEnabled: true,
             vibrateFrequency: 5,
             vibrateAmp: 1.5
          });
-         var track2 = new SineInstrument({});
          var track1ref = synth.addInstrument(track1);
-         var track2ref = synth.addInstrument(track2);
+         var melodyref = synth.addInstrument(melody);
          $.get('music.csv', function(data) {
             events = $.csv2Array(data);
             for (var i = 0; i < events.length; i++) {
                var event = {name : events[i][2]};
                if (events[i].length > 3) {
-                  event.frequency = parseFloat(events[i][3]);
+                  if (events[i][3] in Frequencies) {
+                     event.frequency = Frequencies[events[i][3]];
+                  } else {
+                     event.frequency = parseFloat(events[i][3]);
+                  }
                }
                synth.addEvent(parseInt(events[i][0]), parseInt(events[i][1]), event);
             }
